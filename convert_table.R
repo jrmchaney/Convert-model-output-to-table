@@ -33,6 +33,8 @@ convert_table <- function(model,caption,outname){
     require(printy)
   }
   
+  #get size of model
+  num <- length(fixef(model))
   
   # load in model
   step1 <- parameters::model_parameters(model, conf.int = TRUE)
@@ -41,7 +43,7 @@ convert_table <- function(model,caption,outname){
   step2 <- step1 %>% 
     insight::format_table(pretty_names = FALSE) %>% 
     rename(t = 5) %>% 
-    slice(1:16)
+    slice(1:num)
   
   # split into named lists
   
@@ -59,9 +61,9 @@ convert_table <- function(model,caption,outname){
       hline_bottom(part = "head", border = apa.border) %>%
       hline_top(part = "body", border = apa.border) %>%
       hline_bottom(part = "body", border = apa.border) %>%
-      align(align = "center", part = "all", j=-1) %>%
-      valign(valign = "center", part = "all") %>%
-      colformat_double(digits = 2) %>%
+      align(align = "left", part = "all", j=-1) %>%
+      valign(valign = "center", part = "body") %>%
+      colformat_double(digits = 3) %>%
       fix_border_issues()
   }
   
